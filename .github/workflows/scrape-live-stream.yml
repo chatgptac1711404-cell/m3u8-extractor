@@ -24,12 +24,18 @@ jobs:
     - name: Install Puppeteer
       run: npm install puppeteer
 
-    - name: Run Puppeteer script with dynamic URL
+    - name: Run Puppeteer script and save output
       env:
         TARGET_URL: ${{ github.event.inputs.url }}
       run: |
         echo -e "\033[1;36m🌀 Running Puppeteer Script... 🌀\033[0m"
         node puppeteer-script.js | tee puppeteer_output.txt
+
+    - name: ذخیره فایل خروجی در مخزن
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "افزودن لینک‌های استخراج‌شده"
+        file_pattern: 'puppeteer_output.txt'
 
     - name: Display captured .m3u8 URLs
       run: |
