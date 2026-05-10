@@ -31,11 +31,14 @@ jobs:
         echo -e "\033[1;36m🌀 Running Puppeteer Script... 🌀\033[0m"
         node puppeteer-script.js | tee puppeteer_output.txt
 
-    - name: آپلود فایل خروجی
-      uses: actions/upload-artifact@v4
+    - name: اجرای اسکریپت Puppeteer   # این گام فایل را می‌سازد
+      run: node scrape.js "${{ github.event.inputs.url }}"
+      
+    - name: ذخیره فایل خروجی در مخزن   # گام جدید
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
-          name: puppeteer-output
-          path: puppeteer_output.txt
+        commit_message: "افزودن لینک‌های استخراج‌شده"
+        file_pattern: 'puppeteer_output.txt'
 
     - name: Display captured .m3u8 URLs
       run: |
