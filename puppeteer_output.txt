@@ -1,1 +1,0 @@
-[34mStarting Puppeteer...[0m
